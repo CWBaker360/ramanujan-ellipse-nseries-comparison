@@ -1,0 +1,16 @@
+{
+  "precision_dps": 80,
+  "ellipse_cases": 4,
+  "base_N_values": [
+    32,
+    64,
+    128,
+    256
+  ],
+  "manuscript_values_passed": true,
+  "sixth_order_ratio_64_to_128": "63.997840350887599893",
+  "sixth_order_ratio_128_to_256": "63.99947290864573311",
+  "sixth_order_ratio_passed": true,
+  "comparison_regimes_passed": true,
+  "verification_passed": true
+}

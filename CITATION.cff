@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use or discuss this work, please cite it using the metadata below."
+title: "Ellipse Perimeter: Ramanujan Approximation and N-Series Geometric Acceleration"
+type: article
+authors:
+  - family-names: Baker
+    given-names: C. Wayne
+date-released: 2026-06-01
+version: preprint-v1
+repository-code: "https://github.com/CWBaker360/ramanujan-ellipse-nseries-comparison"
+url: "https://github.com/CWBaker360/ramanujan-ellipse-nseries-comparison"
+abstract: >-
+  A comparative numerical note contrasting Ramanujan's second ellipse-perimeter
+  approximation with two-scale and three-scale polygonal N-Series acceleration.
+  Ramanujan is strongest near the circular case, while the tested N-Series
+  refinement overtakes it at moderate and high eccentricity.
+keywords:
+  - Ramanujan
+  - ellipse perimeter
+  - N-series
+  - polygonal approximation
+  - Richardson extrapolation
+  - eccentricity
+  - numerical analysis
+license: proprietary

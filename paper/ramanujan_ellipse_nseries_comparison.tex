@@ -1,0 +1,244 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\title{Ellipse Perimeter: Ramanujan Approximation and N-Series Geometric Acceleration}
+\author{C. Wayne Baker}
+\date{June 01, 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Ramanujan's formulas for $\pi$ exhibit extraordinary acceleration through
+modular and hypergeometric structure. The N-Series framework approaches the
+same constant from a different direction: it begins with constructible
+polygonal approximations to the circle and accelerates them by cancelling
+successive even-power error terms. This note compares these two viewpoints.
+Ramanujan-type formulas reveal a deep analytic acceleration mechanism, while
+the N-Series construction defines a geometric limiting constant, denoted
+$\pi_g$, through chordal polygonal refinement. The comparison is
+complementary rather than competitive: Ramanujan's formulas give exceptional
+closed-form series acceleration, while the N-Series gives a constructive
+geometric cancellation pathway to $\pi$.
+\end{abstract}
+
+\section{Exact Ellipse Perimeter}
+
+For an ellipse with semi-major axis $a$ and semi-minor axis $b$, the exact
+perimeter is expressed in terms of the complete elliptic integral of the
+second kind:
+\[
+  P_{\mathrm{exact}} = 4a\,E(e),
+  \qquad
+  e = \sqrt{1-\frac{b^{2}}{a^{2}}},
+\]
+where
+\[
+  E(e) = \int_{0}^{\pi/2}\sqrt{1-e^{2}\sin^{2}t}\,\mathrm{d}t .
+\]
+This exact expression is not elementary in general. For this reason, the
+ellipse perimeter has long served as a classical testing ground for
+geometric, algebraic, and numerical approximation methods.
+
+\section{Ramanujan's Approximation}
+
+Ramanujan gave several remarkably accurate closed-form approximations for the
+ellipse perimeter. One of the most widely used is
+\[
+  P_{\mathrm{R}}
+  = \pi(a+b)\left[\,1 + \frac{3h}{10+\sqrt{4-3h}}\,\right],
+  \qquad
+  h = \left(\frac{a-b}{a+b}\right)^{2}.
+\]
+This formula is exceptional because it compresses elliptic-integral behavior
+into a simple algebraic expression involving $a$, $b$, and $h$. Its strength
+is that it gives a high-accuracy perimeter estimate without requiring an
+explicit refinement process.
+
+\section{Polygonal Approximation and N-Series Acceleration}
+
+The N-Series viewpoint approaches the same problem from the opposite
+direction. Instead of seeking a single closed-form approximation, one begins
+with a geometric polygonal approximation to the ellipse and then accelerates
+the convergence by cancelling leading error terms.
+
+Let $P_N$ denote the perimeter of the inscribed $N$-segment polygon obtained
+by sampling the ellipse
+\[
+  x(t)=a\cos t, \qquad y(t)=b\sin t, \qquad 0\leq t<2\pi,
+\]
+at equally spaced parameter values
+\[
+  t_j=\frac{2\pi j}{N}, \qquad j=0,1,\ldots,N-1 .
+\]
+Then
+\[
+  P_N = \sum_{j=0}^{N-1}
+  \sqrt{\bigl(x(t_{j+1})-x(t_j)\bigr)^2 + \bigl(y(t_{j+1})-y(t_j)\bigr)^2},
+\]
+with $t_N=t_0+2\pi$.
+
+For smooth closed curves, such symmetric polygonal approximations possess an
+even-power asymptotic expansion of the form
+\[
+  P_N = P_{\mathrm{exact}}
+  + \frac{C_2}{N^2} + \frac{C_4}{N^4} + \frac{C_6}{N^6} + \cdots .
+\]
+This is precisely the structure targeted by the N-Series cancellation
+operators.
+
+The two-scale accelerated perimeter is
+\[
+  \widehat{P}^{(2)}_N = P_{2N} + \frac{P_{2N}-P_N}{2^2-1}.
+\]
+If the leading error term is $C_2 N^{-2}$, this operator cancels it exactly
+and gives
+\[
+  \widehat{P}^{(2)}_N = P_{\mathrm{exact}} + O(N^{-4}).
+\]
+
+Using the three scales $N$, $2N$, and $4N$, one may cancel the $N^{-2}$ and
+$N^{-4}$ terms simultaneously. The resulting three-scale operator is
+\[
+  \widehat{P}^{(3)}_N
+  = \frac{1}{45}\,P_N - \frac{4}{9}\,P_{2N} + \frac{64}{45}\,P_{4N}.
+\]
+(Its three weights sum to $1$, and they are fixed by the requirement that the
+$N^{-2}$ and $N^{-4}$ terms vanish; one checks
+$\tfrac{1}{45}-\tfrac{1}{4}\cdot\tfrac{4}{9}+\tfrac{1}{16}\cdot\tfrac{64}{45}=0$
+and the analogous $N^{-4}$ condition.) This gives
+\[
+  \widehat{P}^{(3)}_N = P_{\mathrm{exact}} + O(N^{-6}),
+\]
+provided the even-power expansion holds.
+
+\section{Numerical Comparison}
+
+We tested ellipses with $a=1$ and
+\[
+  b \in \{0.90,\;0.75,\;0.50,\;0.25\}.
+\]
+For each ellipse, the exact perimeter was computed from the elliptic-integral
+formula and compared against Ramanujan's approximation, the raw polygonal
+perimeter $P_N$, the two-scale N-Series approximation of order $O(N^{-4})$,
+and the three-scale N-Series approximation of order $O(N^{-6})$.
+
+The results show two complementary regimes. For the near-circular ellipse
+$a=1$, $b=0.90$, Ramanujan's formula is exceptionally accurate, with absolute
+error approximately $2.24\times 10^{-17}$. At $N=256$, the three-scale
+N-Series approximation reaches error approximately $6.32\times 10^{-17}$,
+which is comparable but does not yet improve on Ramanujan's value.
+
+For more eccentric ellipses, however, the N-Series ladder becomes dominant. At
+$a=1$, $b=0.75$, Ramanujan's error is approximately $4.61\times 10^{-13}$. The
+three-scale N-Series approximation improves on this already at $N=64$, where
+the error is approximately $2.40\times 10^{-13}$, and by $N=256$ reduces the
+error to approximately $5.85\times 10^{-17}$.
+
+The improvement is more pronounced for $a=1$, $b=0.50$. Here Ramanujan's error
+is approximately $2.21\times 10^{-9}$, whereas the three-scale N-Series
+approximation at $N=32$ already gives error approximately $7.34\times
+10^{-12}$. By $N=256$, the three-scale N-Series error is approximately
+$5.13\times 10^{-17}$.
+
+For the more eccentric case $a=1$, $b=0.25$, Ramanujan's error is
+approximately $1.07\times 10^{-6}$. The three-scale N-Series approximation
+improves on this even at $N=32$, with error approximately $1.81\times
+10^{-7}$, and reaches approximately $4.54\times 10^{-17}$ by $N=256$.
+
+The three-scale error approximately falls by a factor of $64$ per scale
+doubling --- for $b=0.50$, the successive values are
+$2.10\times 10^{-13}$ at $N=64$, $3.28\times 10^{-15}$ at $N=128$, and
+$5.13\times 10^{-17}$ at $N=256$ --- in agreement with the predicted
+$O(N^{-6})$ order.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{ccccc}
+\toprule
+$a$ & $b$ & $N$ & Ramanujan error & Three-scale N-Series error \\
+\midrule
+$1$ & $0.90$ & $256$ & $2.24\times 10^{-17}$ & $6.32\times 10^{-17}$ \\
+$1$ & $0.75$ & $256$ & $4.61\times 10^{-13}$ & $5.85\times 10^{-17}$ \\
+$1$ & $0.50$ & $256$ & $2.21\times 10^{-9}$  & $5.13\times 10^{-17}$ \\
+$1$ & $0.25$ & $256$ & $1.07\times 10^{-6}$  & $4.54\times 10^{-17}$ \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of Ramanujan's closed-form ellipse perimeter
+approximation with the three-scale N-Series accelerated polygonal
+approximation.}
+\label{tab:ramanujan-nseries-ellipse}
+\end{table}
+
+\section{Interpretation}
+
+The comparison does not show a single universal winner. Rather, it shows two
+different acceleration mechanisms.
+
+Ramanujan's formula gives an exceptional one-shot algebraic approximation,
+especially near the circular case. The N-Series method gives a systematic
+geometric refinement ladder whose advantage increases as the ellipse becomes
+more eccentric. In this sense, the N-Series does not replace Ramanujan's
+approximation; it complements it by supplying a constructible,
+scale-cancellation pathway for driving the polygonal ellipse perimeter to
+high precision.
+
+This distinction is important. Ramanujan's approximation is closed-form and
+requires no refinement parameter $N$. The N-Series approximation is
+algorithmic: it begins with chordal polygon approximations and then cancels
+the leading even-power error terms. Thus the two methods illuminate different
+structures in the same classical problem. Ramanujan reveals a hidden algebraic
+approximation to the elliptic integral, while the N-Series reveals a
+scale-cancellation structure inside the polygonal geometry of the ellipse.
+
+
+\section{Conclusion}
+
+The ellipse perimeter problem provides a useful bridge between Ramanujan-type
+approximation and N-Series geometric acceleration. Ramanujan's approximation
+is extraordinarily effective near the circular case and remains impressive
+even for significant eccentricity. The N-Series refinement ladder, however,
+systematically improves with scale and overtakes the Ramanujan approximation
+for the tested moderate and high eccentricities.
+
+The conclusion is therefore complementary rather than competitive:
+Ramanujan's formula supplies a powerful closed-form algebraic estimate, while
+the N-Series supplies a systematic geometric pathway to high precision
+through exact cancellation of even-power polygonal error terms.
+
+\begin{thebibliography}{9}
+
+\bibitem{ramanujan}
+S. Ramanujan,
+``Modular equations and approximations to $\pi$,''
+\emph{Quarterly Journal of Mathematics}, 45, 1914, pp.\ 350--372.
+
+\bibitem{borwein}
+J. M. Borwein and P. B. Borwein,
+\emph{Pi and the AGM: A Study in Analytic Number Theory and Computational
+Complexity}.
+Wiley, 1987.
+
+\bibitem{ellipse}
+P. F. Byrd and M. D. Friedman,
+\emph{Handbook of Elliptic Integrals for Engineers and Physicists}.
+Springer, 1954.
+
+\bibitem{richardson}
+L. F. Richardson,
+``The approximate arithmetical solution by finite differences of physical
+problems,''
+\emph{Philosophical Transactions of the Royal Society A}, 210, 1911,
+pp.\ 307--357.
+
+\end{thebibliography}
+
+\end{document}
