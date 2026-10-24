@@ -1,244 +1,101 @@
 \documentclass[11pt]{article}
-
-\usepackage{amsmath,amssymb}
-\usepackage{geometry}
-\usepackage{booktabs}
-\usepackage{hyperref}
-
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,booktabs,geometry,microtype,hyperref}
 \geometry{margin=1in}
-
-\title{Ellipse Perimeter: Ramanujan Approximation and N-Series Geometric Acceleration}
+\hypersetup{hidelinks}
+\title{Ellipse Perimeter: Ramanujan Approximation and N-Series Geometric Acceleration\\\large A Chord-Cost and Sinc-Correction Comparison}
 \author{C. Wayne Baker}
-\date{June 01, 2026}
-
+\date{Original: June 1, 2026\\Revised for review: October 24, 2026}
 \begin{document}
-
 \maketitle
-
 \begin{abstract}
-Ramanujan's formulas for $\pi$ exhibit extraordinary acceleration through
-modular and hypergeometric structure. The N-Series framework approaches the
-same constant from a different direction: it begins with constructible
-polygonal approximations to the circle and accelerates them by cancelling
-successive even-power error terms. This note compares these two viewpoints.
-Ramanujan-type formulas reveal a deep analytic acceleration mechanism, while
-the N-Series construction defines a geometric limiting constant, denoted
-$\pi_g$, through chordal polygonal refinement. The comparison is
-complementary rather than competitive: Ramanujan's formulas give exceptional
-closed-form series acceleration, while the N-Series gives a constructive
-geometric cancellation pathway to $\pi$.
+We compare Ramanujan's second closed-form \emph{ellipse-perimeter} approximation with inscribed equal-parameter polygons and their scale-extrapolated refinements. The three-scale geometric N-series operator cancels the $N^{-2}$ and $N^{-4}$ perimeter errors and converges at order $N^{-6}$ for each fixed nondegenerate ellipse. We distinguish its base resolution $N$ from its direct chord-evaluation cost $7N$. An exact chord factorization proved in a subsequent companion paper yields the single-polygon sinc-corrected approximation $P_N/\operatorname{sinc}(\pi/N)$, removing the entire algebraic chord-error factor. The remaining periodic midpoint-quadrature error decays exponentially with $N$ for fixed axis ratio $b/a>0$. We reproduce the earlier high-precision comparisons, explain the near-universal normalized sixth-order coefficient, and give chord-count-aware tests of sinc correction. The three mechanisms are mathematically distinct: a closed-form eccentricity approximation, polynomial Richardson cancellation, and analytic chord normalization. No numerical superiority over established elliptic-integral algorithms is claimed.
 \end{abstract}
-
-\section{Exact Ellipse Perimeter}
-
-For an ellipse with semi-major axis $a$ and semi-minor axis $b$, the exact
-perimeter is expressed in terms of the complete elliptic integral of the
-second kind:
+\section{Exact perimeter and Ramanujan's approximation}
+For semiaxes $a\ge b>0$, the exact perimeter is
+\begin{equation}\label{eq:exact}
+P=4aE(e),\qquad e=\sqrt{1-b^2/a^2},\qquad E(e)=\int_0^{\pi/2}\sqrt{1-e^2\sin^2 t}\,dt.
+\end{equation}
+Ramanujan's second ellipse-perimeter approximation is
+\begin{equation}\label{eq:ram}
+R_2=\pi(a+b)\left(1+\frac{3h}{10+\sqrt{4-3h}}\right),\qquad h=\left(\frac{a-b}{a+b}\right)^2.
+\end{equation}
+This is an approximation to the ellipse perimeter, \emph{not} a Ramanujan series for $\pi$. The signed error is positive at sufficiently small $h$: $P-R_2=\pi(a+b)(3h^5/131072+O(h^6))$. In the comparison tables we report \emph{absolute} errors $|P-\widetilde P|$ in the units of $a$ and $b$.
+\section{Equal-parameter polygons and scale cancellation}
+Set $q(t)=(a\cos t,b\sin t)$ and $t_j=2\pi j/N$. The perimeter $P_N$ is the sum of Euclidean chord lengths $|q(t_{j+1})-q(t_j)|$, with $t_N=2\pi$. For a fixed nondegenerate ellipse the symmetric discretization admits an even-power asymptotic expansion
+\begin{equation}\label{eq:exp}
+P_N=P+C_2N^{-2}+C_4N^{-4}+C_6N^{-6}+O(N^{-8}).
+\end{equation}
+Two-scale cancellation gives $(4P_{2N}-P_N)/3=P+O(N^{-4})$. The original three-scale N-series estimator is
+\begin{equation}\label{eq:three}
+T_N=\frac{P_N}{45}-\frac{4P_{2N}}9+\frac{64P_{4N}}{45}=P+O(N^{-6}).
+\end{equation}
+Indeed its weights sum to $1$ and its $N^{-2}$ and $N^{-4}$ moments vanish:
 \[
-  P_{\mathrm{exact}} = 4a\,E(e),
-  \qquad
-  e = \sqrt{1-\frac{b^{2}}{a^{2}}},
+\frac1{45}-\frac{4}{9\cdot 4}+\frac{64}{45\cdot16}=0,\qquad
+\frac1{45}-\frac4{9\cdot16}+\frac{64}{45\cdot256}=0.
 \]
-where
+\paragraph{Cost accounting.} The three polygon sums use $N+2N+4N=7N$ chord-length evaluations if computed separately; thus a row headed $N=64$ represents a direct cost of $448$ chords, not $64$. Although sample points can sometimes be reused, the polygon chord lengths for different step sizes are not identical. We use chord counts as a transparent geometric operation proxy, \emph{not} as a measured wall-clock or arithmetic-operation benchmark.
+\section{Exact sinc correction and the sixth-order coefficient}
+Let $v(t)=\sqrt{a^2\sin^2t+b^2\cos^2t}$ and define the midpoint sum
 \[
-  E(e) = \int_{0}^{\pi/2}\sqrt{1-e^{2}\sin^{2}t}\,\mathrm{d}t .
+M_N=\frac{2\pi}{N}\sum_{j=0}^{N-1}v\left(\frac{2\pi(j+1/2)}N\right).
 \]
-This exact expression is not elementary in general. For this reason, the
-ellipse perimeter has long served as a classical testing ground for
-geometric, algebraic, and numerical approximation methods.
+The ellipse chord from $t_j$ to $t_{j+1}$ has length $2\sin(\pi/N)v(2\pi(j+1/2)/N)$, exactly. Hence the factorization from the companion ellipse study \cite{BakerFactorization} is
+\begin{equation}\label{eq:sinc}
+P_N=\operatorname{sinc}(\pi/N)M_N,\qquad \operatorname{sinc}(x)=\frac{\sin x}{x}.
+\end{equation}
+Accordingly the single-polygon corrected value is
+\begin{equation}\label{eq:correct}
+S_N=\frac{P_N}{\operatorname{sinc}(\pi/N)}=M_N.
+\end{equation}
+The speed $v$ is analytic in each strip $|\operatorname{Im}z|<\rho_*$, where $\rho_*=\operatorname{artanh}(b/a)$ for $0<b<a$. Standard periodic quadrature estimates imply $S_N-P=O(e^{-\rho N})$ for any fixed $0<\rho<\rho_*$; for odd $N$ the $\pi$-periodicity gives the sharper bound $O(e^{-2\rho N})$. For a circle the midpoint rule is exact. These bounds are for a \emph{fixed} ellipse; the constants are not uniform as $b/a\to0$.
 
-\section{Ramanujan's Approximation}
-
-Ramanujan gave several remarkably accurate closed-form approximations for the
-ellipse perimeter. One of the most widely used is
+Since $M_N-P$ is exponentially small and
 \[
-  P_{\mathrm{R}}
-  = \pi(a+b)\left[\,1 + \frac{3h}{10+\sqrt{4-3h}}\,\right],
-  \qquad
-  h = \left(\frac{a-b}{a+b}\right)^{2}.
+\operatorname{sinc}(\pi/N)=1-\frac{\pi^2}{6N^2}+\frac{\pi^4}{120N^4}-\frac{\pi^6}{5040N^6}+O(N^{-8}),
 \]
-This formula is exceptional because it compresses elliptic-integral behavior
-into a simple algebraic expression involving $a$, $b$, and $h$. Its strength
-is that it gives a high-accuracy perimeter estimate without requiring an
-explicit refinement process.
-
-\section{Polygonal Approximation and N-Series Acceleration}
-
-The N-Series viewpoint approaches the same problem from the opposite
-direction. Instead of seeking a single closed-form approximation, one begins
-with a geometric polygonal approximation to the ellipse and then accelerates
-the convergence by cancelling leading error terms.
-
-Let $P_N$ denote the perimeter of the inscribed $N$-segment polygon obtained
-by sampling the ellipse
-\[
-  x(t)=a\cos t, \qquad y(t)=b\sin t, \qquad 0\leq t<2\pi,
-\]
-at equally spaced parameter values
-\[
-  t_j=\frac{2\pi j}{N}, \qquad j=0,1,\ldots,N-1 .
-\]
-Then
-\[
-  P_N = \sum_{j=0}^{N-1}
-  \sqrt{\bigl(x(t_{j+1})-x(t_j)\bigr)^2 + \bigl(y(t_{j+1})-y(t_j)\bigr)^2},
-\]
-with $t_N=t_0+2\pi$.
-
-For smooth closed curves, such symmetric polygonal approximations possess an
-even-power asymptotic expansion of the form
-\[
-  P_N = P_{\mathrm{exact}}
-  + \frac{C_2}{N^2} + \frac{C_4}{N^4} + \frac{C_6}{N^6} + \cdots .
-\]
-This is precisely the structure targeted by the N-Series cancellation
-operators.
-
-The two-scale accelerated perimeter is
-\[
-  \widehat{P}^{(2)}_N = P_{2N} + \frac{P_{2N}-P_N}{2^2-1}.
-\]
-If the leading error term is $C_2 N^{-2}$, this operator cancels it exactly
-and gives
-\[
-  \widehat{P}^{(2)}_N = P_{\mathrm{exact}} + O(N^{-4}).
-\]
-
-Using the three scales $N$, $2N$, and $4N$, one may cancel the $N^{-2}$ and
-$N^{-4}$ terms simultaneously. The resulting three-scale operator is
-\[
-  \widehat{P}^{(3)}_N
-  = \frac{1}{45}\,P_N - \frac{4}{9}\,P_{2N} + \frac{64}{45}\,P_{4N}.
-\]
-(Its three weights sum to $1$, and they are fixed by the requirement that the
-$N^{-2}$ and $N^{-4}$ terms vanish; one checks
-$\tfrac{1}{45}-\tfrac{1}{4}\cdot\tfrac{4}{9}+\tfrac{1}{16}\cdot\tfrac{64}{45}=0$
-and the analogous $N^{-4}$ condition.) This gives
-\[
-  \widehat{P}^{(3)}_N = P_{\mathrm{exact}} + O(N^{-6}),
-\]
-provided the even-power expansion holds.
-
-\section{Numerical Comparison}
-
-We tested ellipses with $a=1$ and
-\[
-  b \in \{0.90,\;0.75,\;0.50,\;0.25\}.
-\]
-For each ellipse, the exact perimeter was computed from the elliptic-integral
-formula and compared against Ramanujan's approximation, the raw polygonal
-perimeter $P_N$, the two-scale N-Series approximation of order $O(N^{-4})$,
-and the three-scale N-Series approximation of order $O(N^{-6})$.
-
-The results show two complementary regimes. For the near-circular ellipse
-$a=1$, $b=0.90$, Ramanujan's formula is exceptionally accurate, with absolute
-error approximately $2.24\times 10^{-17}$. At $N=256$, the three-scale
-N-Series approximation reaches error approximately $6.32\times 10^{-17}$,
-which is comparable but does not yet improve on Ramanujan's value.
-
-For more eccentric ellipses, however, the N-Series ladder becomes dominant. At
-$a=1$, $b=0.75$, Ramanujan's error is approximately $4.61\times 10^{-13}$. The
-three-scale N-Series approximation improves on this already at $N=64$, where
-the error is approximately $2.40\times 10^{-13}$, and by $N=256$ reduces the
-error to approximately $5.85\times 10^{-17}$.
-
-The improvement is more pronounced for $a=1$, $b=0.50$. Here Ramanujan's error
-is approximately $2.21\times 10^{-9}$, whereas the three-scale N-Series
-approximation at $N=32$ already gives error approximately $7.34\times
-10^{-12}$. By $N=256$, the three-scale N-Series error is approximately
-$5.13\times 10^{-17}$.
-
-For the more eccentric case $a=1$, $b=0.25$, Ramanujan's error is
-approximately $1.07\times 10^{-6}$. The three-scale N-Series approximation
-improves on this even at $N=32$, with error approximately $1.81\times
-10^{-7}$, and reaches approximately $4.54\times 10^{-17}$ by $N=256$.
-
-The three-scale error approximately falls by a factor of $64$ per scale
-doubling --- for $b=0.50$, the successive values are
-$2.10\times 10^{-13}$ at $N=64$, $3.28\times 10^{-15}$ at $N=128$, and
-$5.13\times 10^{-17}$ at $N=256$ --- in agreement with the predicted
-$O(N^{-6})$ order.
-
+the algebraic sixth-order term of $T_N-P$ is
+\begin{equation}\label{eq:six}
+T_N-P=-\frac{P\pi^6}{5040\cdot64\,N^6}+O(N^{-8})+O(e^{-\rho N}),
+\end{equation}
+because $\tfrac1{45}-\tfrac4{9\cdot2^6}+\tfrac{64}{45\cdot4^6}=\tfrac1{64}$. Consequently, $N^6|T_N-P|/P\to\pi^6/(5040\cdot64)$. This explains the nearly uniform small errors across ellipse shapes at sufficiently large $N$: they are proportional to the respective exact perimeters. At modest $N$ and high eccentricity the exponential midpoint contribution can dominate; a universal asymptotic prediction is then premature.
+\section{Numerical comparison and precision}
+The historical table and initial comparison were checked through AI-assisted high-precision recomputation; the newly added equal-cost $S_{448}$ entries were separately recomputed with 170-decimal-digit working precision using the formulas stated here. These are computational cross-checks, not independent human peer review. The original paper did not specify the precision used to generate its historical table; we therefore do \emph{not} retroactively assert a particular original working precision. Reproduction should use arbitrary precision with at least 60 decimal digits, evaluating \eqref{eq:exact}--\eqref{eq:correct} without binary64 rounding of intermediate chord sums. Errors around $10^{-17}$ in perimeters of order five cannot reliably be resolved by subtracting two ordinary double-precision approximations.
 \begin{table}[ht]
-\centering
-\small
-\begin{tabular}{ccccc}
-\toprule
-$a$ & $b$ & $N$ & Ramanujan error & Three-scale N-Series error \\
-\midrule
-$1$ & $0.90$ & $256$ & $2.24\times 10^{-17}$ & $6.32\times 10^{-17}$ \\
-$1$ & $0.75$ & $256$ & $4.61\times 10^{-13}$ & $5.85\times 10^{-17}$ \\
-$1$ & $0.50$ & $256$ & $2.21\times 10^{-9}$  & $5.13\times 10^{-17}$ \\
-$1$ & $0.25$ & $256$ & $1.07\times 10^{-6}$  & $4.54\times 10^{-17}$ \\
-\bottomrule
+\centering\small
+\begin{tabular}{@{}rrrrr@{}}\toprule
+$b$ ($a=1$) & Base $N$ & Direct chords $7N$ & $|P-R_2|$ & $|P-T_N|$\\\midrule
+0.90&256&1792&$2.24\times10^{-17}$&$6.32\times10^{-17}$\\
+0.75&256&1792&$4.61\times10^{-13}$&$5.85\times10^{-17}$\\
+0.50&256&1792&$2.21\times10^{-9}$&$5.13\times10^{-17}$\\
+0.25&256&1792&$1.07\times10^{-6}$&$4.54\times10^{-17}$\\\bottomrule
 \end{tabular}
-\caption{Comparison of Ramanujan's closed-form ellipse perimeter
-approximation with the three-scale N-Series accelerated polygonal
-approximation.}
-\label{tab:ramanujan-nseries-ellipse}
+\caption{Absolute perimeter errors for Ramanujan's closed form and the original three-scale method; $N$ is the base resolution, not the chord cost.}\label{tab:old}
 \end{table}
+For $b=0.50$, the original three-scale errors at base $N=64,128,256$ are $2.10\times10^{-13}$, $3.28\times10^{-15}$, and $5.13\times10^{-17}$, approaching the factor-of-$64$ improvement per doubling predicted by \eqref{eq:six}. At $b=0.25$, base $N=32$ gives $1.81\times10^{-7}$, much larger than the sixth-order algebraic prediction because the quadrature remainder is still material.
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}rrrrrrr@{}}\toprule
+$b$ & $|P-R_2|$ & Base $N$ & $7N$ & $|P-T_N|$ & $|P-S_{128}|$ & $|P-S_{448}|$\\\midrule
+0.50&$2.2\times10^{-9}$&64&448&$2.1\times10^{-13}$&$1.4\times10^{-33}$&$9.99\times10^{-111}$\\
+0.25&$1.1\times10^{-6}$&64&448&$1.8\times10^{-11}$&$2.2\times10^{-17}$&$1.07\times10^{-53}$\\\bottomrule
+\end{tabular}
+\caption{Comparison including $S_{128}$ (128 chords) and the exactly chord-count-matched $S_{448}$ (448 chords). Rounded absolute errors; the $S_{448}$ values were recomputed at 170-digit precision.}\label{tab:new}
+\end{table}
+For $b=0.50$, even $S_{64}$ is reported to attain an absolute error about $7.6\times10^{-18}$ from only $64$ chords. Sinc correction is therefore preferable to the three-scale ladder for these particular numerical cases. Near the degenerate limit $b/a\to0$, however, the analyticity strip collapses and $S_N$ need not yet be exponentially accurate at a given finite $N$. Moreover, \eqref{eq:correct} uses an analytic factor containing $\pi$; it is not a claim that straightedge-and-compass operations alone exactly correct the polygon.
+\section*{AI-assistance and numerical provenance}
+AI tools, including ChatGPT and Claude, assisted with editorial review, formula checks, and numerical comparisons. The earlier tables reflect reported high-precision AI-assisted checks, while the equal-cost $S_{448}$ entries were freshly calculated for this revision with 170-decimal-digit arithmetic. These computational checks do not constitute independent human refereeing. No new empirical runtime measurements are claimed.
+\section{Interpretation and conclusion}
+The original N-series experiment correctly demonstrates sixth-order Richardson cancellation and shows that sufficient polygonal refinement can exceed the accuracy of Ramanujan's single closed-form ellipse approximation for the tested axis ratios. Explicit cost accounting sharpens that finding: a three-scale estimator at base $N$ uses $7N$ chords, whereas a single sinc-corrected $N$-gon uses $N$ chords. The later exact factorization \eqref{eq:sinc} explains why correcting the chord factor all at once can be far more accurate for an analytic ellipse speed. It also gives a precise interpretation of the original $N=256$ table through the universal algebraic residual \eqref{eq:six}.
 
-\section{Interpretation}
-
-The comparison does not show a single universal winner. Rather, it shows two
-different acceleration mechanisms.
-
-Ramanujan's formula gives an exceptional one-shot algebraic approximation,
-especially near the circular case. The N-Series method gives a systematic
-geometric refinement ladder whose advantage increases as the ellipse becomes
-more eccentric. In this sense, the N-Series does not replace Ramanujan's
-approximation; it complements it by supplying a constructible,
-scale-cancellation pathway for driving the polygonal ellipse perimeter to
-high precision.
-
-This distinction is important. Ramanujan's approximation is closed-form and
-requires no refinement parameter $N$. The N-Series approximation is
-algorithmic: it begins with chordal polygon approximations and then cancels
-the leading even-power error terms. Thus the two methods illuminate different
-structures in the same classical problem. Ramanujan reveals a hidden algebraic
-approximation to the elliptic integral, while the N-Series reveals a
-scale-cancellation structure inside the polygonal geometry of the ellipse.
-
-
-\section{Conclusion}
-
-The ellipse perimeter problem provides a useful bridge between Ramanujan-type
-approximation and N-Series geometric acceleration. Ramanujan's approximation
-is extraordinarily effective near the circular case and remains impressive
-even for significant eccentricity. The N-Series refinement ladder, however,
-systematically improves with scale and overtakes the Ramanujan approximation
-for the tested moderate and high eccentricities.
-
-The conclusion is therefore complementary rather than competitive:
-Ramanujan's formula supplies a powerful closed-form algebraic estimate, while
-the N-Series supplies a systematic geometric pathway to high precision
-through exact cancellation of even-power polygonal error terms.
-
+The three methods answer different questions. Ramanujan gives a striking fixed algebraic approximation along the eccentricity axis; N-series extrapolation cancels geometric resolution errors without relying on special ellipse factorization; sinc correction exploits exactly such a factorization and leaves periodic quadrature error. These results are not benchmarks against direct elliptic-integral evaluation, AGM methods, or optimized software implementations. Chord counts alone do not measure runtime. The relevant contribution is a transparent comparison of accuracy mechanisms and their geometric sampling costs.
 \begin{thebibliography}{9}
-
-\bibitem{ramanujan}
-S. Ramanujan,
-``Modular equations and approximations to $\pi$,''
-\emph{Quarterly Journal of Mathematics}, 45, 1914, pp.\ 350--372.
-
-\bibitem{borwein}
-J. M. Borwein and P. B. Borwein,
-\emph{Pi and the AGM: A Study in Analytic Number Theory and Computational
-Complexity}.
-Wiley, 1987.
-
-\bibitem{ellipse}
-P. F. Byrd and M. D. Friedman,
-\emph{Handbook of Elliptic Integrals for Engineers and Physicists}.
-Springer, 1954.
-
-\bibitem{richardson}
-L. F. Richardson,
-``The approximate arithmetical solution by finite differences of physical
-problems,''
-\emph{Philosophical Transactions of the Royal Society A}, 210, 1911,
-pp.\ 307--357.
-
+\bibitem{ramanujan} S. Ramanujan, ``Modular equations and approximations to $\pi$,'' \emph{Quarterly Journal of Mathematics} 45 (1914), 350--372.
+\bibitem{borwein} J. M. Borwein and P. B. Borwein, \emph{Pi and the AGM}, Wiley, 1987.
+\bibitem{ellipse} P. F. Byrd and M. D. Friedman, \emph{Handbook of Elliptic Integrals for Engineers and Physicists}, Springer, 1954.
+\bibitem{richardson} L. F. Richardson, ``The approximate arithmetical solution by finite differences of physical problems,'' \emph{Philosophical Transactions of the Royal Society A} 210 (1911), 307--357.
+\bibitem{BakerFactorization} C. W. Baker, \emph{Exact Chord Factorization and Universal Asymptotics for Inscribed Ellipse Polygons}, companion manuscript, revised October 2026.
+\bibitem{trefethen} L. N. Trefethen and J. A. C. Weideman, ``The exponentially convergent trapezoidal rule,'' \emph{SIAM Review} 56 (2014), 385--458.
 \end{thebibliography}
-
 \end{document}
