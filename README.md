@@ -65,3 +65,7 @@ modular derivation, or claim universal numerical dominance.
 ## Rights
 
 Copyright © 2026 C. Wayne Baker. All rights reserved unless otherwise stated.
+
+## Manuscript review status (October 24, 2026)
+
+The PDF and LaTeX files currently in `paper/` are the repository's existing published/preprint versions. A subsequent editorial and mathematical review has identified proposed clarifications for a future revision. Those revisions have **not** been merged into this repository, and the current PDF must not be described as incorporating them. Existing numerical verification scripts and results are unchanged. A revised source/PDF pair will be considered separately after a source-to-PDF consistency check and further mathematical review. This status notice makes no new scientific or priority claim.
