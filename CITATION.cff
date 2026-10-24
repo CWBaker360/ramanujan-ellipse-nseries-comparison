@@ -5,8 +5,8 @@ type: article
 authors:
   - family-names: Baker
     given-names: C. Wayne
-date-released: 2026-06-01
-version: preprint-v1
+date-released: 2026-10-24
+version: v1.2
 repository-code: "https://github.com/CWBaker360/ramanujan-ellipse-nseries-comparison"
 url: "https://github.com/CWBaker360/ramanujan-ellipse-nseries-comparison"
 abstract: >-
