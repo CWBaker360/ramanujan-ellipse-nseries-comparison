@@ -1,0 +1,24 @@
+SINC CORRECTION INDEPENDENT NUMERICAL AUDIT
+Working precisions: 170 and 220 decimal digits
+
+b/a = 0.50
+Ramanujan   : 2.208796016219013189158e-9 | precision stability: True
+T64         : 2.100940167587564362615547e-13 | precision stability: True
+S64         : 7.583279771911969658493466e-18 | precision stability: True
+S128        : 1.436292504494486235804372e-33 | precision stability: True
+S448        : 9.987708177731495755806967e-111 | precision stability: True
+Manuscript T64: True
+Manuscript S128: True
+Manuscript S448: True
+
+b/a = 0.25
+Ramanujan   : 0.000001071972940753467993902707 | precision stability: True
+T64         : 1.755209440760047000427604e-11 | precision stability: True
+S64         : 7.985363878751851062672347e-10 | precision stability: True
+S128        : 2.219923212095129529597538e-17 | precision stability: True
+S448        : 1.073058538893122231293012e-53 | precision stability: True
+Manuscript T64: True
+Manuscript S128: True
+Manuscript S448: True
+
+verification_passed: True
